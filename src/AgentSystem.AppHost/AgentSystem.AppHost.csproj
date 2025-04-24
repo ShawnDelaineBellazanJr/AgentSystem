@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Sdk Name="Aspire.AppHost.Sdk" Version="9.2.0" />
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <UserSecretsId>52d221e8-4545-4774-8fe2-7c4ae8899e16</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aspire.Hosting.AppHost" Version="9.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AgentSystem.EvaluatorService\AgentSystem.EvaluatorService.csproj" />
+    <ProjectReference Include="..\AgentSystem.ExecutorService\AgentSystem.ExecutorService.csproj" />
+    <ProjectReference Include="..\AgentSystem.PlannerService\AgentSystem.PlannerService.csproj" />
+  </ItemGroup>
+
+</Project>
