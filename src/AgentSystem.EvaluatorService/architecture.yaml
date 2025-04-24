@@ -1,0 +1,43 @@
+name: EvaluatorService
+version: 1.0
+description: Evaluator Service Architecture Configuration
+services:
+  - name: evaluatorApi
+    type: grpc
+    description: gRPC API for evaluating execution results
+    endpoints:
+      - name: EvaluationService
+        type: grpc
+        path: /agents.v1.EvaluationService
+        description: Service for evaluating execution results
+  
+  - name: metricsCollector
+    type: internal
+    description: Collects and processes execution metrics
+    configuration:
+      storeDuration: "7d"
+      aggregationEnabled: "true"
+  
+  - name: resultAnalyzer
+    type: internal
+    description: Analyzes execution results using LLM
+    configuration:
+      confidenceThreshold: "0.6"
+      detailedAnalysis: "true"
+
+dependencies:
+  - source: evaluatorApi
+    target: metricsCollector
+    type: uses
+  
+  - source: evaluatorApi
+    target: resultAnalyzer
+    type: uses
+  
+  - source: resultAnalyzer
+    target: ollama
+    type: requires
+
+properties:
+  enableFeedbackLoop: "true"
+  retentionPeriod: "30d"

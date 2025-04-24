@@ -12,12 +12,15 @@
 
   <ItemGroup>
     <PackageReference Include="Aspire.Hosting.AppHost" Version="9.2.0" />
+    <PackageReference Include="CommunityToolkit.Aspire.Hosting.Ollama" Version="9.4.1-beta.277" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\AgentSystem.EvaluatorService\AgentSystem.EvaluatorService.csproj" />
     <ProjectReference Include="..\AgentSystem.ExecutorService\AgentSystem.ExecutorService.csproj" />
+    <ProjectReference Include="..\AgentSystem.Orchestrator\AgentSystem.Orchestrator.csproj" />
     <ProjectReference Include="..\AgentSystem.PlannerService\AgentSystem.PlannerService.csproj" />
+    <ProjectReference Include="..\AgentSystem.Shared\AgentSystem.Shared.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,43 @@
+name: ExecutorService
+version: 1.0
+description: Executor Service Architecture Configuration
+services:
+  - name: executorApi
+    type: grpc
+    description: gRPC API for executing plans
+    endpoints:
+      - name: ExecutionService
+        type: grpc
+        path: /agents.v1.ExecutionService
+        description: Service for executing plans
+  
+  - name: taskManager
+    type: internal
+    description: Manages task execution and state
+    configuration:
+      maxConcurrentTasks: "20"
+      taskTimeout: "600"
+  
+  - name: executionEngine
+    type: internal
+    description: Core execution engine for plan steps
+    configuration:
+      maxRetries: "3"
+      fallbackEnabled: "true"
+
+dependencies:
+  - source: executorApi
+    target: taskManager
+    type: uses
+  
+  - source: taskManager
+    target: executionEngine
+    type: uses
+  
+  - source: executionEngine
+    target: ollama
+    type: requires
+
+properties:
+  securityLevel: "high"
+  resourceQuota: "medium"

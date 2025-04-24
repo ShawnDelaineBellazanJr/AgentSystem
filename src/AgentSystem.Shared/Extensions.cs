@@ -27,13 +27,15 @@ namespace Microsoft.Extensions.Hosting
 			builder.Services.AddServiceDiscovery();
 
 			builder.Services.ConfigureHttpClientDefaults(http =>
-			{
+			{	
 				// Turn on resilience by default
 				http.AddStandardResilienceHandler();
 
 				// Turn on service discovery by default
 				http.AddServiceDiscovery();
 			});
+			builder.AddOllamaApiClient("llama3");
+			
 
 			// Uncomment the following to restrict the allowed schemes for service discovery.
 			// builder.Services.Configure<ServiceDiscoveryOptions>(options =>

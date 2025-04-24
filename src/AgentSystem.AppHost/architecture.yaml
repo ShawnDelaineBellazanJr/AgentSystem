@@ -1,0 +1,56 @@
+name: AgentSystem
+version: 1.0
+description: Agent System Architecture Configuration
+services:
+  - name: planner
+    type: grpc
+    description: Responsible for planning agent actions
+    endpoints:
+      - name: PlanService
+        type: grpc
+        path: /agents.v1.PlanService
+        description: Service for creating and managing plans
+    configuration:
+      maxPlanDepth: "5"
+      useCache: "true"
+  
+  - name: executor
+    type: grpc
+    description: Executes plans created by the planner
+    endpoints:
+      - name: ExecutionService
+        type: grpc
+        path: /agents.v1.ExecutionService
+        description: Service for executing plans
+    configuration:
+      maxConcurrentExecutions: "10"
+      timeoutSeconds: "300"
+  
+  - name: evaluator
+    type: grpc
+    description: Evaluates the results of executed plans
+    endpoints:
+      - name: EvaluationService
+        type: grpc
+        path: /agents.v1.EvaluationService
+        description: Service for evaluating execution results
+    configuration:
+      evaluationThreshold: "0.7"
+      collectMetrics: "true"
+
+dependencies:
+  - source: planner
+    target: ollama
+    type: uses
+  
+  - source: executor
+    target: ollama
+    type: uses
+  
+  - source: evaluator
+    target: ollama
+    type: uses
+
+properties:
+  enableMonitoring: "true"
+  deploymentType: "distributed"

@@ -1,0 +1,44 @@
+name: PlannerService
+version: 1.0
+description: Planner Service Architecture Configuration
+services:
+  - name: plannerApi
+    type: grpc
+    description: gRPC API for plan generation
+    endpoints:
+      - name: PlanService
+        type: grpc
+        path: /agents.v1.PlanService
+        description: Service for creating and managing plans
+  
+  - name: planStore
+    type: internal
+    description: Stores and manages plans
+    configuration:
+      cacheDuration: "3600"
+      maxPlans: "100"
+  
+  - name: planGenerator
+    type: internal
+    description: Generates plans using LLM
+    configuration:
+      modelName: "llama3"
+      temperature: "0.7"
+      maxTokens: "2048"
+
+dependencies:
+  - source: plannerApi
+    target: planStore
+    type: uses
+  
+  - source: plannerApi
+    target: planGenerator
+    type: uses
+  
+  - source: planGenerator
+    target: ollama
+    type: requires
+
+properties:
+  metricCollection: "true"
+  openTelemetryEnabled: "true"

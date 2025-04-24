@@ -1,0 +1,45 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "AgentSystem.Shared";
+
+package agent;
+
+service Planner {
+  rpc PlanTask (TaskRequest) returns (PlanResponse);
+}
+
+service Executor {
+  rpc ExecuteTask (ExecuteRequest) returns (ExecuteResponse);
+}
+
+service Evaluator {
+  rpc EvaluateResult (EvaluateRequest) returns (EvaluateResponse);
+}
+
+message TaskRequest {
+  string objective = 1;
+  string context = 2;
+}
+
+message PlanResponse {
+  string plan = 1;
+  bool is_complete = 2;
+}
+
+message ExecuteRequest {
+  string plan = 1;
+}
+
+message ExecuteResponse {
+  string result = 1;
+}
+
+message EvaluateRequest {
+  string objective = 1;
+  string result = 2;
+}
+
+message EvaluateResponse {
+  bool is_goal_met = 1;
+  string feedback = 2;
+}
